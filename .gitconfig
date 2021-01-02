@@ -1,0 +1,12 @@
+[user]
+	email = baezanat@gmail.com
+[core]
+  excludesfile = "~/.gitignore_global"
+[pull]
+  rebase = true
+[push]
+  default = current
+[tig]
+  main-view = author:full commit-title:yes,graph=v2,refs=yes
+  blame-view = author:full file-name:auto id:yes,color=yes text
+  line-graphics = utf-8 # Draw pretty connectors in tree layout

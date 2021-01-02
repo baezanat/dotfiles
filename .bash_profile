@@ -1,0 +1,1 @@
+export MINITEST_REPORTER=ProgressReporter
