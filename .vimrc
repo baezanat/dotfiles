@@ -268,6 +268,22 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 " This flag can be set to 0 to disable linting when the buffer is entered.
 let g:ale_lint_on_enter = 0
 
+" ============ USER VIM COLOR THEME ON TMUX =======================
+
+" use 256 colors in terminal
+if !has("gui_running")
+    set t_Co=256
+    set term=screen-256color
+endif
+
+" fix cursor display in cygwin
+if has("win32unix")
+    let &t_ti.="\e[1 q"
+    let &t_SI.="\e[5 q"
+    let &t_EI.="\e[1 q"
+    let &t_te.="\e[0 q"
+endif
+
 ""map <Leader>y "+y
 "map <Leader>d "+d
 "

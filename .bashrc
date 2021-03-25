@@ -148,3 +148,8 @@ export PATH=~/bin:$PATH
 
 eval "$(direnv hook bash)"
 alias dotgit="git --git-dir=/home/amarantha/.dotfiles --work-tree=/home/amarantha"
+
+# enable iex shell history
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+alias g="git"
