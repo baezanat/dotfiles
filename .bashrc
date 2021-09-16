@@ -115,9 +115,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$PATH:/home/amarantha/Apps/dart-sass"
+
+# export PATH="$PATH:$HOME/Apps/dart-sass"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -137,19 +136,15 @@ export PATH=~/bin:$PATH
 #for Bundler
 export PATH=./bin/stubs:$PATH
 
-#for scripts
-export PATH=/bin:$PATH
-
-#for personal scripts
-export PATH=~/bin:$PATH
-
 #initialize Z (https://github.com/rupa/z) 
 . ~/bin/z.sh 
 
 eval "$(direnv hook bash)"
-alias dotgit="git --git-dir=/home/amarantha/.dotfiles --work-tree=/home/amarantha"
+alias dotgit="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
 # enable iex shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
 
+alias ll="ls -l"
 alias g="git"
+alias pg="~/bin/docker-pg.sh"

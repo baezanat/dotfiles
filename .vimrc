@@ -1,6 +1,6 @@
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
-  set nocompatible
+set nocompatible
 filetype off                  " required
 
 " source ~/.vimrc.before if it exists.
@@ -22,15 +22,18 @@ Plugin 'VundleVim/Vundle.vim'
 " endwise to add the keyword end automatically in Ruby
 Plugin 'tpope/vim-endwise'
 
-" supertab to auto-complete variables and methods
-Plugin 'ervandew/supertab'
-
 " fuzzy file search
 Plugin 'kien/ctrlp.vim'
 
 " fuzzy file search and more with fzf
-Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install()}}
 Plugin 'junegunn/fzf.vim'
+
+" NERDTree
+Plugin 'preservim/nerdtree'
+
+"ag.vim
+Plugin 'rking/ag.vim'
 
 " vim syntax highlight for slim
 Plugin 'slim-template/vim-slim'
@@ -52,6 +55,23 @@ Plugin 'alvan/vim-closetag'
 
 " ALE
 Plugin 'dense-analysis/ale'
+
+" ultisnips, Track the engine.
+Plugin 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
+" YouCompleteMe
+Plugin 'ycm-core/YouCompleteMe'
+
+"pangloss/vim-javascript for JavaScript syntax
+Plugin 'pangloss/vim-javascript'
+
+"syntax file for TypeScript
+Plugin 'leafgarland/typescript-vim'
+
+"Syntax highlighting and indentation for JSX
+Plugin 'peitalin/vim-jsx-typescript'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -160,13 +180,13 @@ nnoremap <silent> <Leader>s :exe "vertical resize -20"<CR>
 nnoremap <silent> <Leader>w :exe "vertical resize +20"<CR>
 
 " ========================== TABS =========================
+"Map :tabnew to T
+:map ) :tabnew
 
+"Tab navigation
 map <C-t><up> :tabr<cr>
-
 map <C-t><down> :tabl<cr>
-
 map <C-t><left> :tabp<cr>
-
 map <C-t><right> :tabn<cr>
 
 " =================== Seeing Is Believing =================
@@ -268,6 +288,32 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 " This flag can be set to 0 to disable linting when the buffer is entered.
 let g:ale_lint_on_enter = 0
 
+" ============= CONFIGURE VIM-JSX-TYPESCRIPT HIGHLIGHTER ==========
+"
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+
+" set jsx-tag colors
+" dark red
+hi tsxTagName guifg=#E06C75
+hi tsxComponentName guifg=#E06C75
+hi tsxCloseComponentName guifg=#E06C75
+
+" orange
+hi tsxCloseString guifg=#F99575
+hi tsxCloseTag guifg=#F99575
+hi tsxCloseTagName guifg=#F99575
+hi tsxAttributeBraces guifg=#F99575
+hi tsxEqual guifg=#F99575
+
+" yellow
+hi tsxAttrib guifg=#F8BD7F cterm=italic
+
+" light-grey
+hi tsxTypeBraces guifg=#999999
+" dark-grey
+hi tsxTypes guifg=#666666
+
 " ============ USER VIM COLOR THEME ON TMUX =======================
 
 " use 256 colors in terminal
@@ -284,32 +330,13 @@ if has("win32unix")
     let &t_te.="\e[0 q"
 endif
 
-""map <Leader>y "+y
-"map <Leader>d "+d
-"
-"let g:tmux_navigator_no_mappings = 1
-"
-"nnoremap <silent> {Left-mapping} :TmuxNavigateLeft<cr>
-"nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
-"nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
-"nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
-"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
-"
-"let g:spec_runner_dispatcher = "VtrSendCommand! {command}"
-"
-"" RSpec.vim mappings
-"map <Leader>t :call RunCurrentSpecFile()<CR>
-"map <Leader>s :call RunNearestSpec()<CR>
-"map <Leader>l :call RunLastSpec()<CR>
-"map <Leader>a :call RunAllSpecs()<CR>
-"
-"nnoremap <leader>irb :VtrOpenRunner {'orientation': 'h', 'percentage': 50, 'cmd': 'irb'}<cr>
-"
-"" For ruby block selections
-"runtime macros/matchit.vim
-"
-"" For Running plain Ruby test scripts
-"nnoremap <leader>r :RunSpec<CR>
-"nnoremap <leader>l :RunSpecLine<CR>
-"nnoremap <leader>e :RunSpecLastRun<CR>
-"nnoremap <leader>cr :RunSpecCloseResult<CR>
+" ============ ULTISNIPS TRIGGER CONFIGURATION =======================
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<f4>"
+let g:UltiSnipsJumpForwardTrigger="<S-f>"
+let g:UltiSnipsJumpBackwardTrigger="<S-b>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"

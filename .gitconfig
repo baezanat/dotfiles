@@ -12,3 +12,9 @@
   line-graphics = utf-8 # Draw pretty connectors in tree layout
 [alias]
   a = add --patch
+  s = status
+  can = commit --amend --no-edit
+  ch = checkout
+  co = commit
+  n = --no-ff --no-edit
+  b = branch
