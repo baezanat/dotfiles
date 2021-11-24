@@ -53,9 +53,6 @@ Plugin 'mattreduce/vim-mix'
 " HTML autocomplete
 Plugin 'alvan/vim-closetag'
 
-" ALE
-Plugin 'dense-analysis/ale'
-
 " ultisnips, Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
@@ -64,14 +61,18 @@ Plugin 'honza/vim-snippets'
 " YouCompleteMe
 Plugin 'ycm-core/YouCompleteMe'
 
+" syntastic syntax checking plugin
+Plugin 'vim-syntastic/syntastic'
+
+" vim-jsx got deprecated and broke, so I'll try vim-jsx-pretty!
+Plugin 'yuezk/vim-js'
+Plugin 'maxmellon/vim-jsx-pretty'
+
 "pangloss/vim-javascript for JavaScript syntax
 Plugin 'pangloss/vim-javascript'
 
-"syntax file for TypeScript
-Plugin 'leafgarland/typescript-vim'
-
-"Syntax highlighting and indentation for JSX
-Plugin 'peitalin/vim-jsx-typescript'
+" prettier plugin for autoformat
+Plugin 'prettier/vim-prettier', {'do': 'yarn install'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -271,48 +272,11 @@ nnoremap <F12>f :silent update<Bar>silent !firefox %:p &<CR>
 nnoremap <F5> :silent update<Bar>silent !google-chrome %:p &<CR>
 
 "================ CLOSE TAG OPTIONS=========================
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.leex,*.erb,*.eex'
+let g:closetag_filenames = '*.html,*.leex,*.erb,*.eex, *.js,*.jsx, *.sface'
 "let g:closetag_filetypes = 'html,xhtml,phtml,eex,leex,erb,ex,rb'
 
-" =================== LINTER CONFIGURATION =================
-let g:ale_linters = {
-  \ 'javascript' : ['eslint'],
-  \}
-
-" styling the signs:
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-
-" This flag can be set to 0 to disable linting when the buffer is entered.
-let g:ale_lint_on_enter = 0
-
-" ============= CONFIGURE VIM-JSX-TYPESCRIPT HIGHLIGHTER ==========
-"
-" set filetypes as typescriptreact
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
-
-" set jsx-tag colors
-" dark red
-hi tsxTagName guifg=#E06C75
-hi tsxComponentName guifg=#E06C75
-hi tsxCloseComponentName guifg=#E06C75
-
-" orange
-hi tsxCloseString guifg=#F99575
-hi tsxCloseTag guifg=#F99575
-hi tsxCloseTagName guifg=#F99575
-hi tsxAttributeBraces guifg=#F99575
-hi tsxEqual guifg=#F99575
-
-" yellow
-hi tsxAttrib guifg=#F8BD7F cterm=italic
-
-" light-grey
-hi tsxTypeBraces guifg=#999999
-" dark-grey
-hi tsxTypes guifg=#666666
+" ================== SYNTASTIC ======================
+let g:syntastic_javascript_checkers = ['eslint']
 
 " ============ USER VIM COLOR THEME ON TMUX =======================
 
@@ -340,3 +304,14 @@ let g:UltiSnipsJumpBackwardTrigger="<S-b>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+" ========================= PRETTIER ==================================
+" overwrite default prettier configuration
+let g:prettier#config#bracket_spacing = 'true'
+let g:prettier#config#jsx_bracket_same_line = 'false'
+
+" running before saving in vim
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+
+packloadall
