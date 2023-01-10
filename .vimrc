@@ -8,6 +8,8 @@ if filereadable(expand("~/.vimrc.before"))
 source ~/.vimrc.before
 endif
 
+" enable mouse
+:set mouse=a
 "========================== Vundle ============================
 
 " set the runtime path to include Vundle and initialize
@@ -38,6 +40,11 @@ Plugin 'rking/ag.vim'
 " vim syntax highlight for slim
 Plugin 'slim-template/vim-slim'
 
+" Conquer of Completion
+" Not properly configured!
+" Plugin 'neoclide/coc.nvim'
+" Plugin 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+
 " Tomorrow color theme
 Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
@@ -50,13 +57,20 @@ Plugin 'elixir-editors/vim-elixir'
 " Plugin to use Elixir's build tool, mix
 Plugin 'mattreduce/vim-mix'
 
+" Elixir mix format
+Plugin 'mhinz/vim-mix-format'
+
 " HTML autocomplete
 Plugin 'alvan/vim-closetag'
 
 " ultisnips, Track the engine.
 Plugin 'SirVer/ultisnips'
+
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+
+" Tailwind css intellisense
+Plugin 'iamcco/coc-tailwindcss'
 
 " YouCompleteMe
 Plugin 'ycm-core/YouCompleteMe'
@@ -74,9 +88,13 @@ Plugin 'pangloss/vim-javascript'
 " prettier plugin for autoformat
 Plugin 'prettier/vim-prettier', {'do': 'yarn install'}
 
+" Auto pairs, auto-complete parentheses and brakets
+Plugin 'jiangmiao/auto-pairs'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -180,15 +198,30 @@ nnoremap <silent> <Leader>[ :exe "resize " . (winheight(0) * 2/3)<CR>
 nnoremap <silent> <Leader>s :exe "vertical resize -20"<CR>
 nnoremap <silent> <Leader>w :exe "vertical resize +20"<CR>
 
+" ============= Format elixir on save ========================
+" elixir files not being assigned right filetype automatically
+au BufRead,BufNewFile *.ex,*.exs set filetype=elixir
+au BufRead,BufNewFile *.eex,*.heex,*.leex,*.sface,*.lexs set filetype=eelixir
+au BufRead,BufNewFile mix.lock set filetype=elixir
+
+" Run mix format on save
+let g:mix_format_on_save = 1
+
 " ========================== TABS =========================
 "Map :tabnew to T
 :map ) :tabnew
 
-"Tab navigation
-map <C-t><up> :tabr<cr>
-map <C-t><down> :tabl<cr>
-map <C-t><left> :tabp<cr>
-map <C-t><right> :tabn<cr>
+" Go to first tab
+" map <C-t><up> :tabr<cr>
+
+" Go to last tab
+" map <C-t><down> :tabl<cr>
+
+" Go to previous tab
+" map <C-t><left> :tabp<cr>
+
+" Go to next tab
+" map <C-t><right> :tabn<cr>
 
 " =================== Seeing Is Believing =================
 "
@@ -272,7 +305,7 @@ nnoremap <F12>f :silent update<Bar>silent !firefox %:p &<CR>
 nnoremap <F5> :silent update<Bar>silent !google-chrome %:p &<CR>
 
 "================ CLOSE TAG OPTIONS=========================
-let g:closetag_filenames = '*.html,*.leex,*.erb,*.eex, *.js,*.jsx, *.sface'
+let g:closetag_filenames = '*.html,*.leex,*.erb,*.eex, *.heex, *.js,*.jsx, *.sface'
 "let g:closetag_filetypes = 'html,xhtml,phtml,eex,leex,erb,ex,rb'
 
 " ================== SYNTASTIC ======================

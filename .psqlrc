@@ -6,6 +6,8 @@
 
 \pset null '[null]'
 
+\pset pager off
+
 \set COMP_KEYWORD_CASE upper
 
 \timing

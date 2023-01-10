@@ -18,3 +18,4 @@
   co = commit
   n = --no-ff --no-edit
   b = branch
+  pf = push --force-with-lease
