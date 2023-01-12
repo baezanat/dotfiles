@@ -1,0 +1,49 @@
+# NodeJS
+/node_modules/
+/yarn-debug.log*
+/yarn-error.log
+/.yarn-integrity
+
+# Ruby
+/bin/stubs
+/build
+/.bundle
+/.byebug_history # If you run byebug via `byebug`
+/coverage/
+/public/packs/
+/public/packs-test/
+/.rubocop-http*
+
+# macOS - https://www.gitignore.io/api/macos
+.DS_Store
+## General
+.AppleDouble
+.LSOverride
+
+## Icon must end with two \r —pay attention to this one, there are invisible characters
+Icon
+
+## Thumbnails
+._*
+
+## Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+## Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+## sandbox file to run dato CLI interally to projects
+/sandbox_nat.js
+
+## env
+.envrc.private
