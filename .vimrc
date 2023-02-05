@@ -10,102 +10,109 @@ endif
 
 " enable mouse
 :set mouse=a
-"========================== Vundle ============================
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+"========================== Plug (plugin manager)  ============================
+"
+" automatic installation of Plug
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
 
 " endwise to add the keyword end automatically in Ruby
-Plugin 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise'
 
 " fuzzy file search
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
 " fuzzy file search and more with fzf
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install()}}
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install()}}
+Plug 'junegunn/fzf.vim'
 
 " NERDTree
-Plugin 'preservim/nerdtree'
+Plug 'preservim/nerdtree'
+
+" Syntax highlighting
+Plug 'sheerun/vim-polyglot'
 
 "ag.vim
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim'
 
 " vim syntax highlight for slim
-Plugin 'slim-template/vim-slim'
+Plug 'slim-template/vim-slim'
 
-" Conquer of Completion
-" Not properly configured!
-" Plugin 'neoclide/coc.nvim'
-" Plugin 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+" Syntax highlighting for html5
+Plug 'othree/html5.vim'
 
 " Tomorrow color theme
-Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+" Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+
+" Plugin to install elixirLS through ale
+" Plug 'GrzegorzKozub/vim-elixirls', { 'do': ':ElixirLsCompileSync' }
+
+" Ale for dense analysis and elixir LS
+Plug 'dense-analysis/ale'
 
 " Buffergator for managing buffers
-Plugin 'jeetsukumaran/vim-buffergator' 
+Plug 'jeetsukumaran/vim-buffergator' 
 
 " Elixir syntax highlighting
-Plugin 'elixir-editors/vim-elixir'
+Plug 'elixir-editors/vim-elixir'
 
 " Plugin to use Elixir's build tool, mix
-Plugin 'mattreduce/vim-mix'
+Plug 'mattreduce/vim-mix'
 
 " Elixir mix format
-Plugin 'mhinz/vim-mix-format'
+Plug 'mhinz/vim-mix-format'
 
 " HTML autocomplete
-Plugin 'alvan/vim-closetag'
+Plug 'alvan/vim-closetag'
 
 " ultisnips, Track the engine.
-Plugin 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
 " Tailwind css intellisense
-Plugin 'iamcco/coc-tailwindcss'
+Plug 'iamcco/coc-tailwindcss'
 
 " YouCompleteMe
-Plugin 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 
 " syntastic syntax checking plugin
-Plugin 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " vim-jsx got deprecated and broke, so I'll try vim-jsx-pretty!
-Plugin 'yuezk/vim-js'
-Plugin 'maxmellon/vim-jsx-pretty'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 
 "pangloss/vim-javascript for JavaScript syntax
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 
 " prettier plugin for autoformat
-Plugin 'prettier/vim-prettier', {'do': 'yarn install'}
+Plug 'prettier/vim-prettier', {'do': 'yarn install'}
 
 " Auto pairs, auto-complete parentheses and brakets
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Initialize plugin system
+" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+call plug#end()
+" You can revert the settings after the call like so:
+"   filetype indent off   " Disable file-type-specific indentation
+"   syntax off            " Disable syntax highlighting
 
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 " ================ General Config ====================
 
@@ -282,8 +289,12 @@ autocmd! VimEnter * command! -nargs=* -complete=file Ag :call fzf#vim#ag_raw(<q-
 command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 "====================== COLORSCHEME DIRECTIVE======================
-colorscheme Tomorrow-Night
-
+" colorscheme Tomorrow-Night
+set background=dark
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+colorscheme solarized8
 " ========================================
 "auto-complete html tags
 :iabbrev <// </<C-X><C-O>
@@ -314,18 +325,18 @@ let g:syntastic_javascript_checkers = ['eslint']
 " ============ USER VIM COLOR THEME ON TMUX =======================
 
 " use 256 colors in terminal
-if !has("gui_running")
-    set t_Co=256
-    set term=screen-256color
-endif
+"if !has("gui_running")
+"    set t_Co=256
+"    set term=screen-256color
+"endif
 
 " fix cursor display in cygwin
-if has("win32unix")
-    let &t_ti.="\e[1 q"
-    let &t_SI.="\e[5 q"
-    let &t_EI.="\e[1 q"
-    let &t_te.="\e[0 q"
-endif
+"if has("win32unix")
+"    let &t_ti.="\e[1 q"
+"    let &t_SI.="\e[5 q"
+"    let &t_EI.="\e[1 q"
+"    let &t_te.="\e[0 q"
+"endif
 
 " ============ ULTISNIPS TRIGGER CONFIGURATION =======================
 " Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
@@ -348,3 +359,26 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 packloadall
+
+
+" ====================== File search with FZF and  ==========================
+nnoremap <leader>f :Files<cr>
+
+" ====================== Configure elixirLS ==========================
+
+let g:ale_elixir_elixir_ls_config = { 'elixirLS': { 'dialyzerEnabled': v:false  }  }
+
+let g:ale_linters = {}
+let g:ale_linters.elixir = [ 'credo', 'elixir-ls'  ]
+
+" Required, tell ALE where to find Elixir LS
+let g:ale_elixir_elixir_ls_release = expand("~/elixir-ls/rel")
+"let g:ale_fixers.elixir = ['mix_format']
+
+nnoremap <leader>df :ALEGoToDefinition<cr>
+nnoremap <leader>dv :ALEGoToDefinition -vsplit<cr>
+nnoremap <leader>dh :ALEGoToDefinition -split<cr>
+nnoremap <leader>dt :ALEGoToDefinition -tab<cr>
+
+nnoremap df :ALEFix<cr>
+nnoremap K :ALEHover<cr>
