@@ -29,6 +29,12 @@ call plug#begin()
 "   - e.g. `call plug#begin('~/.vim/plugged')`
 "   - Avoid using standard Vim directory names like 'plugin'
 
+" test support
+Plug 'vim-test/vim-test'
+
+" git blame
+Plug 'zivyangll/git-blame.vim'
+
 " endwise to add the keyword end automatically in Ruby
 Plug 'tpope/vim-endwise'
 
@@ -53,12 +59,6 @@ Plug 'slim-template/vim-slim'
 
 " Syntax highlighting for html5
 Plug 'othree/html5.vim'
-
-" Tomorrow color theme
-" Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
-
-" Plugin to install elixirLS through ale
-" Plug 'GrzegorzKozub/vim-elixirls', { 'do': ':ElixirLsCompileSync' }
 
 " Ale for dense analysis and elixir LS
 Plug 'dense-analysis/ale'
@@ -230,30 +230,6 @@ let g:mix_format_on_save = 1
 " Go to next tab
 " map <C-t><right> :tabn<cr>
 
-" =================== Seeing Is Believing =================
-"
-" " Assumes you have a Ruby with SiB available in the PATH
-"
-" " Annotate every line
-"
-nmap <leader>nn :%!seeing_is_believing --timeout 12 --line-length 500 --number-of-captures 300 --alignment-strategy chunk<CR>;
-"
-"  " Annotate marked lines
-"
-nmap <leader>n :%.!seeing_is_believing --timeout 12 --line-length 500 --number-of-captures 300 --alignment-strategy chunk --xmpfilter-style<CR>;
-"
-"  " Remove annotations
-"
-nmap <leader>c :%.!seeing_is_believing --clean<CR>;
-"
-"  " Mark the current line for annotation
-"
-nmap <leader>m A # => <Esc>
-"
-"  " Mark the highlighted lines for annotation
-"
-vmap <leader>m :norm A # => <Esc>
-
 " ============================= NERDTREE =============================
 "To open NERDTree automatically when vim starts up if no files are specified
 autocmd StdinReadPre * let s:std_in=1
@@ -316,7 +292,7 @@ nnoremap <F12>f :silent update<Bar>silent !firefox %:p &<CR>
 nnoremap <F5> :silent update<Bar>silent !google-chrome %:p &<CR>
 
 "================ CLOSE TAG OPTIONS=========================
-let g:closetag_filenames = '*.html,*.leex,*.erb,*.eex, *.heex, *.js,*.jsx, *.sface'
+let g:closetag_filenames = '*.html,*.leex,*.erb,*.eex, *.heex, *.ex, *.js,*.jsx, *.sface'
 "let g:closetag_filetypes = 'html,xhtml,phtml,eex,leex,erb,ex,rb'
 
 " ================== SYNTASTIC ======================
@@ -343,8 +319,8 @@ let g:syntastic_javascript_checkers = ['eslint']
 " - https://github.com/Valloric/YouCompleteMe
 " - https://github.com/nvim-lua/completion-nvim
 let g:UltiSnipsExpandTrigger="<f4>"
-let g:UltiSnipsJumpForwardTrigger="<S-f>"
-let g:UltiSnipsJumpBackwardTrigger="<S-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -382,3 +358,13 @@ nnoremap <leader>dt :ALEGoToDefinition -tab<cr>
 
 nnoremap df :ALEFix<cr>
 nnoremap K :ALEHover<cr>
+
+" ====================== git blame mapping  ==========================
+nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
+
+" ====================== vim test  ==========================
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
