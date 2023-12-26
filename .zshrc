@@ -8,21 +8,8 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Configuration for Android Studio
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-alias adb='/Users/nataliabaeza/Library/Android/sdk/platform-tools/adb'
-export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
-
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/nataliabaeza/.oh-my-zsh"
-
-# Enable shell history in iex (erlang)
-export ERL_AFLAGS="-kernel shell_history enabled"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -90,8 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
-plugins=(asdf git brew z zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,38 +95,8 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# Browse chrome history
-ch() {
-  local cols sep
-  cols=$(( COLUMNS / 3 ))
-  sep='{::}'
-
-  cp -f ~/Library/Application\ Support/Google/Chrome/Profile\ 1/History /tmp/h
-
-  sqlite3 -separator $sep /tmp/h \
-    "select substr(title, 1, $cols), url
-     from urls order by last_visit_time desc" |
-  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
-  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
-}
-
-# Tell ZFZ to use ripgrep
-if type rg &> /dev/null; then
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_DEFAULT_OPTS='-m --height 50% --border'
-fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# for Bundler
-export PATH=./bin/stubs:$PATH
-
-# for project scripts:
-export PATH=./bin:$PATH
-
-# for personal scripts
-export PATH=~/bin:$PATH
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -150,7 +106,7 @@ export PATH=~/bin:$PATH
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias dotgit="git --git-dir=/Users/nataliabaeza/.dotfiles --work-tree=/Users/nataliabaeza"
+alias dotgit="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias g="git"
 alias ll="ls -l"
 alias pg="~/bin/docker-pg.sh"
@@ -159,13 +115,3 @@ alias es="~/bin/docker-es.sh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="/usr/local/opt/libpq/bin:$PATH"
-
-# for asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-# direnv hoook
-eval "$(direnv hook zsh)"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
