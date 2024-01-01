@@ -109,9 +109,9 @@ source $ZSH/oh-my-zsh.sh
 alias dotgit="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias g="git"
 alias ll="ls -l"
-alias pg="~/bin/docker-pg.sh"
-alias redis="~/bin/docker-redis.sh"
-alias es="~/bin/docker-es.sh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# asdf
+. "$HOME/.asdf/asdf.sh"
